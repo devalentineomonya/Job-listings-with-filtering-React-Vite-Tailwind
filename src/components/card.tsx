@@ -22,13 +22,13 @@ const Card: React.FC<
   return (
     <div
       className={cn(
-        "w-full bg-white rounded-sm shadow-card-shadow before:content-[''] before:h-full before:absolute before:w-1 before:bg-esaturated-dark-cyan overflow-hidden relative before:left-0",
+        "w-full bg-white rounded-sm shadow-card-shadow before:content-[''] before:h-full before:absolute before:w-1 before:bg-esaturated-dark-cyan  relative before:left-0",
         id > 2 && "before:hidden"
       )}
     >
-      <div className="p-8 pl-11 flex items-center justify-between">
-        <div className=" flex items-center gap-6">
-          <img src={logo} className="h-20 w-20" />
+      <div className="p-8 pl-11 flex items-start md:items-center justify-between max-md:flex-col">
+        <div className=" flex items-center gap-6 relative">
+          <img src={logo} className="h-16 w-16 md:h-20 md:w-20 max-md:absolute -top-16 " />
           <div>
             <div className="flex items-center gap-2">
               <h2 className="font-semibold text-xl text-esaturated-dark-cyan">
@@ -61,7 +61,7 @@ const Card: React.FC<
             </p>
           </div>
         </div>
-        <div className="flex items-center gap-x-3">
+        <div className="flex items-center max-md:flex-wrap gap-3">
           {[role, level, ...tools, ...languages].map((item) => (
             <Badge
               handleClick={handleAddFilter}

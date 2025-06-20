@@ -2,7 +2,10 @@ import { useState } from "react";
 import Card from "./components/card";
 import cardData from "./assets/data/data";
 import headerImageDesktop from "@/assets/images/bg-header-desktop.svg";
+import headerImageMobile from "@/assets/images/bg-header-mobile.svg";
 import closeIcon from "./assets/images/icon-remove.svg";
+
+
 export type CardData = (typeof cardData)[0];
 
 const App = () => {
@@ -23,16 +26,20 @@ const App = () => {
     });
   };
 
-  return (
-    <div className="min-h-[100dvh] bg-light-grayish-cyan-100">
+  return  (
+    <div className="min-h-[100dvh] bg-light-grayish-cyan-100 ">
       <header className="w-full max-h-80 bg-esaturated-dark-cyan min-h-40 relative">
         <img
           src={headerImageDesktop}
-          className="absolute w-full h-full object-cover "
+          className="absolute w-full h-full object-cover max-lg:hidden  "
+        />
+         <img
+          src={headerImageMobile}
+          className="absolute w-full h-full object-cover min-lg:hidden  "
         />
       </header>
       {filters.length > 0 && (
-        <div className="bg-white shadow-card-shadow w-full py-4 max-w-5xl mx-auto px-4 flex items-center justify-between gap-3">
+        <div className="bg-white shadow-card-shadow w-full py-4 max-w-5xl mx-auto px-4 flex items-center justify-between gap-3 ">
           <div className=" flex items-center gap-3 flex-wrap">
             {filters.map((filter) => (
               <BadgeItem
@@ -50,14 +57,19 @@ const App = () => {
           </button>
         </div>
       )}
-      <main className="flex flex-col items-center justify-center mx-auto max-w-5xl gap-8 mt-14">
+      <main className="flex flex-col items-center justify-center mx-auto max-w-5xl gap-8 mt-14 px-3">
         {cardData
           .filter((data) => {
-        const allTags = [data.role, data.level, ...data.tools, ...data.languages];
-        return filters.every((filter) => allTags.includes(filter));
+            const allTags = [
+              data.role,
+              data.level,
+              ...data.tools,
+              ...data.languages,
+            ];
+            return filters.every((filter) => allTags.includes(filter));
           })
           .map((data) => (
-        <Card key={data.id} handleAddFilter={addFilter} {...data} />
+            <Card key={data.id} handleAddFilter={addFilter} {...data} />
           ))}
       </main>
     </div>
