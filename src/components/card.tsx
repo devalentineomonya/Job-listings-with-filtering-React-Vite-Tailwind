@@ -2,7 +2,7 @@ import type React from "react";
 import type { CardData } from "../App";
 import { cn } from "../lib/utils";
 const Card: React.FC<
-  CardData & { filters: string[]; setFilters: (filters: string[]) => void }
+  CardData & { handleAddFilter: (filter: string) => void }
 > = ({
   logo,
   id,
@@ -17,8 +17,7 @@ const Card: React.FC<
   location,
   postedAt,
   contract,
-  filters,
-  setFilters,
+  handleAddFilter,
 }) => {
   return (
     <div
@@ -39,16 +38,14 @@ const Card: React.FC<
                 <Badge
                   label="New!"
                   className="bg-esaturated-dark-cyan"
-                  filters={filters}
-                  handleClick={setFilters}
+                  handleClick={handleAddFilter}
                 />
               )}
               {featured && (
                 <Badge
                   label="Featured"
                   className="bg-very-dark-grayish-cyan"
-                  filters={filters}
-                  handleClick={setFilters}
+                  handleClick={handleAddFilter}
                 />
               )}
             </div>
@@ -67,8 +64,7 @@ const Card: React.FC<
         <div className="flex items-center gap-x-3">
           {[role, level, ...tools, ...languages].map((item) => (
             <Badge
-              handleClick={setFilters}
-              filters={filters}
+              handleClick={handleAddFilter}
               key={item}
               label={item}
               className="rounded bg-light-grayish-cyan-200 capitalize font-medium text-md text-esaturated-dark-cyan"
@@ -85,18 +81,16 @@ export default Card;
 const Badge = ({
   className,
   label,
-  filters,
   handleClick,
 }: {
   label: string;
-  filters: string[];
-  handleClick: (filter: string[]) => void;
+  handleClick: (filter: string) => void;
   className?: string;
 }) => (
   <button
-    onClick={() => handleClick([...filters, label])}
+    onClick={() => handleClick(label)}
     className={cn(
-      "px-3 py-1 text-xs  uppercase text-white rounded-full",
+      "px-3 py-1 text-xs  uppercase text-white rounded-full cursor-pointer hover:bg-esaturated-dark-cyan hover:text-white transition-colors duration-300 ",
       className
     )}
   >
