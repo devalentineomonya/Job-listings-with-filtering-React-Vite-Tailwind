@@ -1,7 +1,9 @@
 import type React from "react";
 import type { CardData } from "../App";
 import { cn } from "../lib/utils";
-const Card: React.FC<CardData> = ({
+const Card: React.FC<
+  CardData & { filters: string[]; setFilters: (filters: string[]) => void }
+> = ({
   logo,
   id,
   company,
@@ -15,6 +17,8 @@ const Card: React.FC<CardData> = ({
   location,
   postedAt,
   contract,
+  filters,
+  setFilters,
 }) => {
   return (
     <div
@@ -32,10 +36,20 @@ const Card: React.FC<CardData> = ({
                 {company}
               </h2>
               {isNew && (
-                <Badge label="New!" className="bg-esaturated-dark-cyan" />
+                <Badge
+                  label="New!"
+                  className="bg-esaturated-dark-cyan"
+                  filters={filters}
+                  handleClick={setFilters}
+                />
               )}
               {featured && (
-                <Badge label="Featured" className="bg-very-dark-grayish-cyan" />
+                <Badge
+                  label="Featured"
+                  className="bg-very-dark-grayish-cyan"
+                  filters={filters}
+                  handleClick={setFilters}
+                />
               )}
             </div>
             <p className="my-2 font-bold text-xl text-very-dark-grayish-cyan">
@@ -53,6 +67,8 @@ const Card: React.FC<CardData> = ({
         <div className="flex items-center gap-x-3">
           {[role, level, ...tools, ...languages].map((item) => (
             <Badge
+              handleClick={setFilters}
+              filters={filters}
               key={item}
               label={item}
               className="rounded bg-light-grayish-cyan-200 capitalize font-medium text-md text-esaturated-dark-cyan"
@@ -66,15 +82,26 @@ const Card: React.FC<CardData> = ({
 
 export default Card;
 
-const Badge = ({ className, label }: { label: string; className?: string }) => (
-  <div
+const Badge = ({
+  className,
+  label,
+  filters,
+  handleClick,
+}: {
+  label: string;
+  filters: string[];
+  handleClick: (filter: string[]) => void;
+  className?: string;
+}) => (
+  <button
+    onClick={() => handleClick([...filters, label])}
     className={cn(
       "px-3 py-1 text-xs  uppercase text-white rounded-full",
       className
     )}
   >
     {label}
-  </div>
+  </button>
 );
 
 const Dot = () => <span className="w-1 h-1 rounded-full  bg-gray-400 " />;
